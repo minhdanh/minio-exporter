@@ -13,6 +13,7 @@
 
 GO       ?= GO15VENDOREXPERIMENT=1 go
 GOPATH   := $(firstword $(subst :, ,$(shell $(GO) env GOPATH)))
+DEP       = dep
 TARGET    = minio_exporter
 
 VERSION             := $(shell cat VERSION)
@@ -41,7 +42,8 @@ test:
 
 get_dep:
 	@echo "... getting dependencies"
-	@$(GO) get -d
+	@$(DEP) ensure
+
 
 docker: docker_build docker_push
 	@echo "... docker building and pushing"

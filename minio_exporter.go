@@ -23,6 +23,8 @@ import (
 	"sync"
 	"time"
 
+	"github.com/google/go-cmp/cmp"
+
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/common/log"
 	"github.com/prometheus/common/version"
@@ -203,7 +205,7 @@ func collectServerStats(e *MinioExporter, ch chan<- prometheus.Metric) {
 			float64(serverUp), host)
 	}
 
-	if storageInfo != (madmin.StorageInfo{}) {
+	if !cmp.Equal(storageInfo, (madmin.StorageInfo{})) {
 		collectStorageInfo(storageInfo, ch)
 	}
 }
