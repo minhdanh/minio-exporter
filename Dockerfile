@@ -12,7 +12,13 @@
 # limitations under the License.
 
 FROM golang:1.12.4 AS builder
-RUN GO111MODULE=on go get github.com/minhdanh/minio-exporter@Dep
+
+COPY . /go/src/github.com/minhdanh/minio-exporter
+
+RUN go get github.com/golang/dep/cmd/dep && \
+  cd /go/src/github.com/minhdanh/minio-exporter && \
+  dep ensure && \
+  CGO_ENABLED=0 go build -o /usr/local/bin/minio_exporter
 
 FROM quay.io/prometheus/busybox:latest
 
