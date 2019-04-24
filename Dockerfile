@@ -11,11 +11,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+FROM golang:1.12.4 AS builder
+RUN GO111MODULE=on go get github.com/minhdanh/minio-exporter@Dep
+
 FROM quay.io/prometheus/busybox:latest
 
 LABEL maintainer="joe-pll"
 
-COPY minio_exporter /bin/minio_exporter
+COPY --from=builder /usr/local/bin/minio_exporter /bin/minio_exporter
 
 EXPOSE 9290
 ENTRYPOINT [ "/bin/minio_exporter" ]
