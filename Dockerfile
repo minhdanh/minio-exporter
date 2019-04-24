@@ -11,7 +11,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM golang:1.12.4 AS builder
+FROM golang:1.10 AS builder
 
 COPY . /go/src/github.com/minhdanh/minio-exporter
 
